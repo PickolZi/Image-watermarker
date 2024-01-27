@@ -66,8 +66,18 @@ def generate_watermarked_images():
 
             my_font = ImageFont.load_default(size=settings["font_size"])
             img = Image.open(f"./originals/{folder}/{image}")
+            length, width = img.size
+            x = settings["left"]
+            y = settings["top"]
+
+            # If the user chooses the right or bottom spacing, we gotta make slight calculations for the x and y position depending on the image size.
+            if settings["right"]:
+                x = length - settings["right"] - (settings["font_size"] * len(folder))
+            if settings["bottom"]:
+                y = width - settings["bottom"] - settings["font_size"]
+
             watermarked_img = ImageDraw.Draw(img)
-            watermarked_img.text((settings["left"], settings["top"]), f"[{folder}]", font=my_font, fill=(0,0,0))
+            watermarked_img.text((x, y), f"[{folder}]", font=my_font, fill=settings["color"])
             img.save(f"./watermark/{folder}/{image}")
     print(f"Finished creating watermarks for {IMAGE_COUNT} images")
     

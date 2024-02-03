@@ -44,7 +44,7 @@ def get_all_folders_and_images_names():
 
         images_in_folder = []
         for file in Path(f'./originals/{folder.name}').iterdir():
-            if file.name.endswith((".png", ".jpg", ".jpeg", "heif")):
+            if file.name.lower().endswith((".png", ".jpg", ".jpeg", "heif")):
                 global IMAGE_COUNT
                 IMAGE_COUNT += 1
                 images_in_folder.append(file.name)
@@ -72,7 +72,8 @@ def generate_watermarked_images():
 
             # If the user chooses the right or bottom spacing, we gotta make slight calculations for the x and y position depending on the image size.
             if settings["right"]:
-                x = length - settings["right"] - (settings["font_size"] * len(folder))
+                x = length - settings["right"] - (settings["font_size"] * len(folder) * 0.50)
+                # x = length - settings["right"] - (settings["font_size"] * len(folder))
             if settings["bottom"]:
                 y = width - settings["bottom"] - settings["font_size"]
 
